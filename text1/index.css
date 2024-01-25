@@ -2,6 +2,12 @@
   margin: 0;
   padding: 0;
 }
+body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 .container{
   font-size: 12px;
   width: 608px;
@@ -55,6 +61,7 @@ span{
   text-align: center;
 }
 .timer{
+  width: 608px;
   font-size: 30px;
   font-weight: 600;
 }

@@ -39,16 +39,30 @@ class Omok {
       "XBBBBBS",
       "XBBBBBX",
     ],
-    ["WWWWW"],
+    [
+      "SWWWWWS",
+      "SWWWWWB",
+      "SWWWWWX",
+      "BWWWWWS",
+      "BWWWWWB",
+      "BWWWWWX",
+      "XWWWWWS",
+      "XWWWWWX",
+    ],
   ];
-  omokfirstPattern = [["SBBBBS", "SBBBBS"], ["SBBBBW", "SBBBBS"], []];
+  // 44 패턴
+  // omokfirstPattern1 = ["SBBBBS", "SBBBBW", "WBBBBS"];
+  // 33 패턴
+  // omokfirstPattern2 = ["SBBBS", "SBBBW", "WBBBS"];
+  // 오목 게임의 상태와 정보를 담는 변수들
   omokFlag = [];
   boardSize;
   playerType = this.HUMAN;
   firstPlayer = this.HUMAN;
   blockInterval;
-
-  mainBoard = [];
+  cnt = 0;
+  // 오목판과 착수 정보를 담는 배열
+  // mainBoard = [];
   mainBoard = new ObservableArray(
     () => {
       this.makeOmokArray();
@@ -60,29 +74,30 @@ class Omok {
   boardArray;
   constructor(boardSize, playerType, firstPlayer) {
     this.boardSize = boardSize;
+    // 오목판 크기에 따라 블록 간격을 설정
     if (this.boardSize == 19) {
       this.blockInterval = 30;
     } else if (this.boardSize == 15) {
       this.blockInterval = 38;
     }
+    // 오목판과 스코어 배열 초기화
     this.boardArray = Array.from(Array(this.boardSize + 1), () =>
       new Array(this.boardSize + 1).fill("")
     );
     this.scoreArray = Array.from(Array(this.boardSize + 1), () =>
       new Array(this.boardSize + 1).fill(1)
     );
-    // 상대 선수
+    // 플레이어의 타입과 첫 수를 설정
     this.playerType = playerType;
-    // 흑선수
     this.firstPlayer = firstPlayer;
     this.trun = null;
   }
-
+  // 오목판 그리기
   drawBoard(ctx) {
     ctx.clearRect(0, 0, 700, 630);
     ctx.lineWidth = 0.7;
     ctx.strokeStyle = "black";
-
+    // 네모 그리기
     for (let i = 1; i < this.boardSize; i += 1) {
       for (let k = 1; k < this.boardSize; k += 1) {
         ctx.strokeRect(
@@ -139,18 +154,21 @@ class Omok {
     ctx.arc(x * this.blockInterval, y * this.blockInterval, 3, 0, Math.PI * 2);
     ctx.fill();
   }
+  // 오목판 위치
   getOmokPostiton(LayerX, LayerY) {
     return {
       omokX: Math.round(LayerX / this.blockInterval),
       omokY: Math.round(LayerY / this.blockInterval),
     };
   }
+  // 타겟 위치
   getBoardPosition(omokX, omokY) {
     return {
       boardX: omokX * this.blockInterval,
       boardY: omokY * this.blockInterval,
     };
   }
+  // 흑과 백 바꾸기
   getNextColor() {
     if (this.mainBoard.length == 0) {
       return this.BALCK;
@@ -182,6 +200,7 @@ class Omok {
       0,
       1
     );
+    //2번방향
     this.analyzePoint(
       this.trun,
       this.mainBoard[this.mainBoard.length - 1].color == "black" ? 0 : 1,
@@ -189,6 +208,7 @@ class Omok {
       1,
       2
     );
+    //3번방향
     this.analyzePoint(
       this.trun,
       this.mainBoard[this.mainBoard.length - 1].color == "black" ? 0 : 1,
@@ -196,6 +216,7 @@ class Omok {
       1,
       3
     );
+    //4번방향
     this.analyzePoint(
       this.trun,
       this.mainBoard[this.mainBoard.length - 1].color == "black" ? 0 : 1,
@@ -203,6 +224,7 @@ class Omok {
       1,
       4
     );
+    this.cnt = 0;
   }
 
   // 돌 그리기
@@ -233,36 +255,15 @@ class Omok {
     ctx.fill();
 
     // 착수순서 표시
-    // if (pointinfo.order) {
-    //   pointinfo.color == "black"
-    //     ? (ctx.fillStyle = "white")
-    //     : (ctx.fillStyle = "black");
-    //   ctx.textBaseline = "middle";
-    //   ctx.textAlign = "center";
-    //   ctx.font = "14px verdana";
-    //   ctx.fillText(pointinfo.order, boardX, boardY);
-    // }
-    // 마지막 수 표시
-    // if (pointinfo.order == this.mainBoard.length) {
-    //   ctx.save();
-    //   ctx.strokeStyle = "red";
-    //   ctx.strokeRect(
-    //     boardX - this.blockInterval / 2,
-    //     boardY - this.blockInterval / 2,
-    //     this.blockInterval,
-    //     this.blockInterval
-    //   );
-    //   ctx.restore();
-    // }
-  }
-  checkOccupied(omokX, omokY) {
-    let filtered = this.mainBoard.filter((point) => {
-      return point.x == omokX && point.y == omokY;
-    });
-    return filtered.length > 0;
-  }
-  undoStone() {
-    this.mainBoard.pop();
+    if (pointinfo.order) {
+      pointinfo.color == "black"
+        ? (ctx.fillStyle = "white")
+        : (ctx.fillStyle = "black");
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "center";
+      ctx.font = "14px verdana";
+      ctx.fillText(pointinfo.order, boardX, boardY);
+    }
   }
 
   getStoneInfo(array, item, dx, dy) {
@@ -280,6 +281,7 @@ class Omok {
     do {
       pointX = item.x + pos * dx;
       pointY = item.y + pos * dy;
+
       if (
         pointX < 1 ||
         pointX > this.boardSize ||
@@ -372,10 +374,10 @@ class Omok {
     // 오목 체크
     if (this.findPattern(pattern, this.omokPattern[checkstone])) {
       this.omokFlag[direction] = true;
-      this.omokPattern[direction] = pattern;
       return;
     }
   }
+  // 오목 배열 만들기
   makeOmokArray() {
     this.boardArray = Array.from(Array(this.boardSize + 1), () =>
       new Array(this.boardSize + 1).fill("")
@@ -384,6 +386,7 @@ class Omok {
       this.boardArray[item.x][item.y] = item.color;
     });
   }
+  // 착수 순서 가져오기
   getOrder() {
     return this.mainBoard.length;
   }
