@@ -9,3 +9,8 @@
   + ![화면 구상도](https://github.com/Tyrano1129/Omok/blob/main/%ED%99%94%EB%A9%B4%20%EC%BA%A1%EC%B2%98%202024-01-25%20094335.png)
 ## 4. 게임진행 과정
   + ![진행 과정](https://github.com/Tyrano1129/Omok/blob/main/%EC%A7%84%ED%96%89%EA%B3%BC%EC%A0%95.drawio.png)
+## 5. 다른규칙 추가(보류중인 규칙)
+  + 흑 과 백의 차이를 줄이고자 규칙을 만듬
+    * 흑은 33과 44는 사용못한다.
+    * 또한 6목도 사용못한다.
+## 6. 컴퓨터 알고리즘 만들기(아직 구상단계를 거치지못함)
