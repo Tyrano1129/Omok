@@ -8,6 +8,7 @@
   + 30초 동안 돌을 두지않을경우 다른플레이어에게 넘어간다.
 ## 3. 화면 구상도
   + ![화면 구상도](https://github.com/Tyrano1129/Omok/blob/main/%ED%99%94%EB%A9%B4%20%EC%BA%A1%EC%B2%98%202024-01-25%20094335.png)
+  + 15*15 판과 19*19 판을 구현
 ## 4. 게임진행 과정
   + ![진행 과정](https://github.com/Tyrano1129/Omok/blob/main/%EC%A7%84%ED%96%89%EA%B3%BC%EC%A0%95.drawio.png)
 ## 5. 다른규칙 추가(보류중인 규칙)
