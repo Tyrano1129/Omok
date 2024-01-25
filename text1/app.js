@@ -33,47 +33,48 @@ let cnt = 0;
 init();
 function init() {
   boardSizening();
-  playertypes();
-  firsttype();
+  // playertypes();
+  // firsttype();
   // board 사이즈 정하기
   boardSizeBtn.forEach((size) => {
     size.addEventListener("click", boardSizening);
   });
   // 상대 선수타입 정하기
-  playerBtn.forEach((player) => {
-    player.addEventListener("click", playertypes);
-  });
+  // playerBtn.forEach((player) => {
+  //   player.addEventListener("click", playertypes);
+  // });
   // 흑설정
-  firstBtn.forEach((first) => {
-    first.addEventListener("click", firsttype);
-  });
+  // firstBtn.forEach((first) => {
+  //   first.addEventListener("click", firsttype);
+  // });
 }
 // 흑백 정하기
-function firsttype() {
-  if (document.querySelector("#humanfirst").checked) firstplayer = "H";
-  if (document.querySelector("#comfirst").checked) firstplayer = "C";
-}
+// function firsttype() {
+//   if (document.querySelector("#humanfirst").checked) firstplayer = "H";
+//   if (document.querySelector("#comfirst").checked) firstplayer = "C";
+// }
 // 플레이어 타입 컴인지 사람인지
 function playertypes() {
-  if (document.querySelector("#human").checked) {
-    playertype = "H";
-    document.querySelector(".firstplayer").style.display = "none";
-  }
+  // if (document.querySelector("#human").checked) {
+  //   playertype = "H";
+  //   document.querySelector(".firstplayer").style.display = "none";
+  // }
   // 상대가 컴퓨터
-  if (document.querySelector("#com").checked) {
-    playertype = "C";
-    document.querySelector(".firstplayer").style.display = "block";
-  }
+  // if (document.querySelector("#com").checked) {
+  //   playertype = "C";
+  //   document.querySelector(".firstplayer").style.display = "block";
+  // }
 }
-
-let omokGame = new Omok(boardsize, playertype, firstplayer);
-omokGame.drawBoard(context);
+let omokGame = null;
 // 사이즈 정하기
 function boardSizening() {
   if (document.querySelector("#size15").checked) boardsize = 15;
   if (document.querySelector("#size19").checked) boardsize = 19;
 }
 startbtn.addEventListener("click", () => {
+  startbtn.style.display = "none";
+  omokGame = new Omok(boardsize, playertype, firstplayer);
+  omokGame.drawBoard(context);
   // alert(
   //   `시작버튼 클릭=> 사이즈 : ${boardsize}, 상대선수 : ${playertype}, 흑 선수 : ${firstplayer}`
   // );
@@ -92,7 +93,7 @@ startbtn.addEventListener("click", () => {
     restartFlag = false;
   }
   canvas.addEventListener("click", canvasEvant);
-  undobtn.addEventListener("click", undos);
+  // undobtn.addEventListener("click", undos);
 });
 function canvasEvant() {
   startOmok(event);
@@ -139,28 +140,29 @@ function startOmok(e) {
     setTimeout(() => {
       let color = pointinfo.color == "black" ? "흑" : "흰";
       clearInterval(interval);
-      undobtn.removeEventListener("click", undos);
+      // undobtn.removeEventListener("click", undos);
       canvas.removeEventListener("click", canvasEvant);
       alert(`${color}승리! 다시하고싶으면 게임 재시작을 눌러주세요!`);
-    });
+      startbtn.style.display = "block";
+    }, 10);
     return;
   }
 }
 
 // 무르기
-function undos() {
-  // 현재 오목이면 return
-  if (
-    omokGame.omokFlag[1] ||
-    omokGame.omokFlag[2] ||
-    omokGame.omokFlag[3] ||
-    omokGame.omokFlag[4]
-  ) {
-    return;
-  }
-  //무르기 처리
-  omokGame.undoStone();
-  // 오목판 그리기
-  omokGame.drawBoard(context);
-  // alert("무르기버튼 클릭!!");
-}
+// function undos() {
+//   // 현재 오목이면 return
+//   if (
+//     omokGame.omokFlag[1] ||
+//     omokGame.omokFlag[2] ||
+//     omokGame.omokFlag[3] ||
+//     omokGame.omokFlag[4]
+//   ) {
+//     return;
+//   }
+//   //무르기 처리
+//   omokGame.undoStone();
+//   // 오목판 그리기
+//   omokGame.drawBoard(context);
+//   // alert("무르기버튼 클릭!!");
+// }

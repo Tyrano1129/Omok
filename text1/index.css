@@ -5,7 +5,7 @@
 .container{
   font-size: 12px;
   width: 608px;
-
+  position: relative;
 }
 .canvas{
   border: 1px solid black;
@@ -15,37 +15,46 @@
   display: flex;
   flex-direction: column;
 }
-.button-area{
+/* .button-area{
   text-align: center;
   width: 608px;
-}
+} */
 .controlcenter{
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12px;
   width: 608px;
+  
 }
 span{
   font-weight: bold;
 }
 .boardsize, .playertype , .firstplayer{
   margin-left: 10px;
-  padding: 5px;
+  padding: 10px;
+  font-size: 30px;
 }
 .button{
   background-color: cornflowerblue;
   border: none;
-  font-size: 12px;
+  font-size: 24px;
+  text-align: center;
   color: white;
-  padding: 5px;
-  margin: 3px;
   width: 100px;
+  height: 100px;
   border-radius: 5px;
   cursor: pointer;
+}
+.start{
+  position: absolute;
+  bottom: 50%;
+  left: 43%;
+}
+.button-area{
+  text-align: center;
 }
 .timer{
   font-size: 30px;
   font-weight: 600;
-  
 }

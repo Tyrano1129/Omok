@@ -13,16 +13,24 @@
       <div class="main-board">
         <!-- 오목판 -->
         <canvas class="canvas" width="608" height="638"></canvas>
-      </div>
-      <div class="controlcenter">
-        <div class="boardsize">
-          <span>오목판 사이즈</span>
-          <input type="radio" name="boardsize" id="size15" checked />
-          <label for="size15">15*15</label>
-          <input type="radio" name="boardsize" id="size19" />
-          <label for="size19">19*19</label>
+        <div class="controlcenter">
+          <div class="boardsize">
+            <span>오목판 사이즈</span>
+            <input type="radio" name="boardsize" id="size15" checked />
+            <label for="size15">15*15</label>
+            <input type="radio" name="boardsize" id="size19" />
+            <label for="size19">19*19</label>
+          </div>
         </div>
-        <div class="playertype">
+        <div class="button-area">
+          <!-- 시작버튼 -->
+          <button class="button start">시작</button>
+          <!-- <button class="button undo">무르기</button> -->
+          <div class="timer"></div>
+        </div>
+      </div>
+
+      <!-- <div class="playertype">
           <span>상대</span>
           <input type="radio" name="playertype" id="human" checked />
           <label for="human">사람</label>
@@ -35,14 +43,7 @@
           <label for="humanfirst">사람</label>
           <input type="radio" name="firstplayer" id="comfirst" />
           <label for="comfirst">컴퓨터</label>
-        </div>
-      </div>
-      <div class="button-area">
-        <!-- 시작버튼 -->
-        <button class="button start">(재)시작</button>
-        <button class="button undo">무르기</button>
-        <div class="timer"></div>
-      </div>
+        </div> -->
     </div>
   </body>
 </html>
