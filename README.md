@@ -7,5 +7,5 @@
   + 5개의 같은 바둑돌이 가로 세로 대각선 으로 나오면 승리
 ## 3. 화면 구상도
   + ![화면 구상도](https://github.com/Tyrano1129/Omok/blob/main/%ED%99%94%EB%A9%B4%20%EC%BA%A1%EC%B2%98%202024-01-25%20094335.png)
-## 4. 만드는 과정
-  
+## 4. 게임진행 과정
+  + ![진행 과정](https://github.com/Tyrano1129/Omok/blob/main/%EC%A7%84%ED%96%89%EA%B3%BC%EC%A0%95.drawio.png)
