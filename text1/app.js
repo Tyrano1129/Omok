@@ -27,6 +27,8 @@ const playSound = new Audio("TAK.WAV");
 let boardsize;
 let playertype;
 let firstplayer;
+let interval;
+let cnt = 0;
 // 초기값 설정
 init();
 function init() {
@@ -89,11 +91,30 @@ startbtn.addEventListener("click", () => {
     omokGame.drawBoard(context);
     restartFlag = false;
   }
-  canvas.addEventListener("click", (e) => {
-    startOmok(e);
-  });
+  canvas.addEventListener("click", canvasEvant);
   undobtn.addEventListener("click", undos);
 });
+function canvasEvant() {
+  startOmok(event);
+  timeOut();
+  document.querySelector(".timer").innerHTML = `착수 남은시간 : ${cnt--}`;
+}
+// 타임아웃 첫수가 진행해야 시작
+function timeOut() {
+  cnt = 30;
+  clearInterval(interval);
+  // 30초 지나면 다음플레이어에게 넘기기
+  interval = setInterval(() => {
+    if (cnt <= 0) {
+      if (omokGame.getOrder() > 0) {
+        omokGame.trun.color =
+          omokGame.trun.color == "black" ? "white" : "black";
+      }
+      cnt = 30;
+    }
+    document.querySelector(".timer").innerHTML = `착수 남은시간 : ${cnt--}`;
+  }, 1000);
+}
 // 착수
 function startOmok(e) {
   let { omokX, omokY } = omokGame.getOmokPostiton(e.layerX, e.layerY);
@@ -116,7 +137,11 @@ function startOmok(e) {
     omokGame.omokFlag[4]
   ) {
     setTimeout(() => {
-      alert("오목!!! 다음 게임진행할려면 시작버튼을 눌러주세요!");
+      let color = pointinfo.color == "black" ? "흑" : "흰";
+      clearInterval(interval);
+      undobtn.removeEventListener("click", undos);
+      canvas.removeEventListener("click", canvasEvant);
+      alert(`${color}승리! 다시하고싶으면 게임 재시작을 눌러주세요!`);
     });
     return;
   }

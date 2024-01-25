@@ -27,7 +27,7 @@ class Omok {
     "R",
     "S",
   ];
-  // 6목 패턴
+  // 5목 패턴
   omokPattern = [
     [
       "SBBBBBS",
@@ -41,6 +41,7 @@ class Omok {
     ],
     ["WWWWW"],
   ];
+  omokfirstPattern = [["SBBBBS", "SBBBBS"], ["SBBBBW", "SBBBBS"], []];
   omokFlag = [];
   boardSize;
   playerType = this.HUMAN;
@@ -160,7 +161,7 @@ class Omok {
     }
   }
   // 착수 정보 저장(추가)
-  putStone(omokX, omokY) {
+  putStone(omokX, omokY, cnt) {
     // 예외체크
     let check = this.mainBoard.findIndex(
       (idx) => idx.x == omokX && idx.y == omokY
@@ -285,21 +286,21 @@ class Omok {
         pointY < 1 ||
         pointY > this.boardSize
       ) {
-        getStoneInfo = "X" + getStoneInfo;
+        getStoneInfo += "X";
         break;
       }
       if (array[pointX][pointY] == "black") {
-        getStoneInfo = "B" + getStoneInfo;
+        getStoneInfo += "B";
         spaceCount = 0;
         // 돌이 바뀌면 멈춤
         if (array[pointX][pointY] != item.color) break;
       } else if (array[pointX][pointY] == "white") {
-        getStoneInfo = "W" + getStoneInfo;
+        getStoneInfo += "W";
         spaceCount = 0;
         // 돌이 바뀌면 멈춤
         if (array[pointX][pointY] != item.color) break;
       } else {
-        getStoneInfo = "S" + getStoneInfo;
+        getStoneInfo += "S";
         spaceCount += 1;
         // 연속된 공백수 3개이면 멈춤
         if (spaceCount == 3) break;
@@ -324,22 +325,22 @@ class Omok {
         pointY < 1 ||
         pointY > this.boardSize
       ) {
-        getStoneInfo += "X";
+        getStoneInfo = "X" + getStoneInfo;
         break;
       }
 
       if (array[pointX][pointY] == "black") {
-        getStoneInfo += "B";
+        getStoneInfo = "B" + getStoneInfo;
         spaceCount = 0;
         // 돌이 바뀌면 멈춤
         if (array[pointX][pointY] != item.color) break;
       } else if (array[pointX][pointY] == "white") {
-        getStoneInfo += "W";
+        getStoneInfo = "W" + getStoneInfo;
         spaceCount = 0;
         // 돌이 바뀌면 멈춤
         if (array[pointX][pointY] != item.color) break;
       } else {
-        getStoneInfo += "S";
+        getStoneInfo = "S" + getStoneInfo;
         spaceCount += 1;
         // 연속된 공백수 3개이면 멈춤
         if (spaceCount == 3) break;
@@ -353,9 +354,9 @@ class Omok {
     );
     return getStoneInfo;
   }
+  // 승리조건 찾기
   findPattern(stoneInfo, pattern) {
     let result = false;
-    console.log(pattern);
     pattern.forEach((i) => {
       if (stoneInfo.includes(i)) {
         result = true;
