@@ -60,7 +60,6 @@ class Omok {
   playerType = this.HUMAN;
   firstPlayer = this.HUMAN;
   blockInterval;
-  cnt = 0;
   // 오목판과 착수 정보를 담는 배열
   // mainBoard = [];
   mainBoard = new ObservableArray(
@@ -179,7 +178,7 @@ class Omok {
     }
   }
   // 착수 정보 저장(추가)
-  putStone(omokX, omokY, cnt) {
+  putStone(omokX, omokY) {
     // 예외체크
     let check = this.mainBoard.findIndex(
       (idx) => idx.x == omokX && idx.y == omokY
@@ -224,7 +223,6 @@ class Omok {
       1,
       4
     );
-    this.cnt = 0;
   }
 
   // 돌 그리기
@@ -278,6 +276,7 @@ class Omok {
     // 2. 오목판을 벗어난 경우
     // 3. 공백인 경우는 연속3개 공백이면 멈춤
 
+    // 오른쪽
     do {
       pointX = item.x + pos * dx;
       pointY = item.y + pos * dy;
@@ -291,16 +290,16 @@ class Omok {
         getStoneInfo += "X";
         break;
       }
-      if (array[pointX][pointY] == "black") {
+      if (array[pointY][pointX] == "black") {
         getStoneInfo += "B";
         spaceCount = 0;
         // 돌이 바뀌면 멈춤
-        if (array[pointX][pointY] != item.color) break;
-      } else if (array[pointX][pointY] == "white") {
+        if (array[pointY][pointX] != item.color) break;
+      } else if (array[pointY][pointX] == "white") {
         getStoneInfo += "W";
         spaceCount = 0;
         // 돌이 바뀌면 멈춤
-        if (array[pointX][pointY] != item.color) break;
+        if (array[pointY][pointX] != item.color) break;
       } else {
         getStoneInfo += "S";
         spaceCount += 1;
@@ -317,7 +316,7 @@ class Omok {
 
     spaceCount = 0;
     pos = 1;
-
+    // 왼쪽
     do {
       pointX = item.x + pos * dx * -1;
       pointY = item.y + pos * dy * -1;
@@ -331,16 +330,16 @@ class Omok {
         break;
       }
 
-      if (array[pointX][pointY] == "black") {
+      if (array[pointY][pointX] == "black") {
         getStoneInfo = "B" + getStoneInfo;
         spaceCount = 0;
         // 돌이 바뀌면 멈춤
-        if (array[pointX][pointY] != item.color) break;
-      } else if (array[pointX][pointY] == "white") {
+        if (array[pointY][pointX] != item.color) break;
+      } else if (array[pointY][pointX] == "white") {
         getStoneInfo = "W" + getStoneInfo;
         spaceCount = 0;
         // 돌이 바뀌면 멈춤
-        if (array[pointX][pointY] != item.color) break;
+        if (array[pointY][pointX] != item.color) break;
       } else {
         getStoneInfo = "S" + getStoneInfo;
         spaceCount += 1;
@@ -370,12 +369,116 @@ class Omok {
     //패턴 flag 초기화
     this.omokFlag[direction] = false;
     // 패턴검사
+    console.log(this.boardArray);
     const pattern = this.getStoneInfo(this.boardArray, pointInfo, dx, dy);
+    console.log(this.check33(pointInfo));
     // 오목 체크
     if (this.findPattern(pattern, this.omokPattern[checkstone])) {
       this.omokFlag[direction] = true;
       return;
     }
+  }
+  check33(pointInfo) {
+    for (let i = 0; i < this.boardArray.length; i += 1) {
+      if (
+        i + 2 >= this.boardArray.length ||
+        i + 1 >= this.boardArray.length ||
+        i - 2 < 0 ||
+        i - 1 < 0
+      ) {
+        continue;
+      }
+      for (let k = 0; k < this.boardArray[i].length; k += 1) {
+        if (
+          k + 2 >= this.boardArray.length ||
+          k + 1 >= this.boardArray.length ||
+          k - 2 < 0 ||
+          k - 1 < 0
+        ) {
+          continue;
+        }
+        if (
+          this.boardArray[i - 2][k] == pointInfo.color &&
+          this.boardArray[i - 1][k] == pointInfo.color &&
+          this.boardArray[i - 1][k + 1] == pointInfo.color &&
+          this.boardArray[i - 2][k + 2] == pointInfo.color
+        ) {
+          return true;
+        } else if (
+          this.boardArray[i - 1][k + 1] == pointInfo.color &&
+          this.boardArray[i - 2][k + 2] == pointInfo.color &&
+          this.boardArray[i][k + 1] == pointInfo.color &&
+          this.boardArray[i][k + 2] == pointInfo.color
+        ) {
+          return true;
+        } else if (
+          this.boardArray[i][k + 1] == pointInfo.color &&
+          this.boardArray[i][k + 2] == pointInfo.color &&
+          this.boardArray[i + 1][k + 1] == pointInfo.color &&
+          this.boardArray[i + 2][k + 2] == pointInfo.color
+        ) {
+          return true;
+        } else if (
+          this.boardArray[i][k + 1] == pointInfo.color &&
+          this.boardArray[i][k + 2] == pointInfo.color &&
+          this.boardArray[i + 1][k + 1] == pointInfo.color &&
+          this.boardArray[i + 2][k + 2] == pointInfo.color
+        ) {
+          return true;
+        } else if (
+          this.boardArray[i + 1][k + 1] == pointInfo.color &&
+          this.boardArray[i + 2][k + 2] == pointInfo.color &&
+          this.boardArray[i + 1][k] == pointInfo.color &&
+          this.boardArray[i + 2][k] == pointInfo.color
+        ) {
+          return true;
+        } else if (
+          this.boardArray[i + 1][k] == pointInfo.color &&
+          this.boardArray[i + 2][k] == pointInfo.color &&
+          this.boardArray[i + 1][k - 1] == pointInfo.color &&
+          this.boardArray[i + 2][k - 2] == pointInfo.color
+        ) {
+          return true;
+        } else if (
+          this.boardArray[i + 1][k - 1] == pointInfo.color &&
+          this.boardArray[i + 2][k - 2] == pointInfo.color &&
+          this.boardArray[i][k - 1] == pointInfo.color &&
+          this.boardArray[i][k - 2] == pointInfo.color
+        ) {
+          return true;
+        } else if (
+          this.boardArray[i][k - 1] == pointInfo.color &&
+          this.boardArray[i][k - 2] == pointInfo.color &&
+          this.boardArray[i - 1][k - 1] == pointInfo.color &&
+          this.boardArray[i - 2][k - 2] == pointInfo.color
+        ) {
+          return true;
+        } else if (
+          this.boardArray[i][k - 1] == pointInfo.color &&
+          this.boardArray[i][k - 2] == pointInfo.color &&
+          this.boardArray[i - 1][k - 1] == pointInfo.color &&
+          this.boardArray[i - 2][k - 2] == pointInfo.color
+        ) {
+          return true;
+        }
+        if (
+          this.boardArray[i + 1][k] == pointInfo.color &&
+          this.boardArray[i][k + 1] == pointInfo.color &&
+          this.boardArray[i - 1][k] == pointInfo.color &&
+          this.boardArray[i][k - 1] == pointInfo.color
+        ) {
+          return true;
+        } else if (
+          this.boardArray[i + 1][k + 1] == pointInfo.color &&
+          this.boardArray[i - 1][k - 1] == pointInfo.color &&
+          this.boardArray[i - 1][k + 1] == pointInfo.color &&
+          this.boardArray[i + 1][k - 1] == pointInfo.color
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
   // 오목 배열 만들기
   makeOmokArray() {
@@ -383,7 +486,7 @@ class Omok {
       new Array(this.boardSize + 1).fill("")
     );
     this.mainBoard.forEach((item) => {
-      this.boardArray[item.x][item.y] = item.color;
+      this.boardArray[item.y][item.x] = item.color;
     });
   }
   // 착수 순서 가져오기

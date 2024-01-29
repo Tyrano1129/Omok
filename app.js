@@ -12,16 +12,16 @@ const boardSizeBtn = [
 ];
 // 플레이어 타입정하기 com : player
 // const playerBtn = document.querySelector(".playertype");
-const playerBtn = [
-  document.querySelector("#human"),
-  document.querySelector("#com"),
-];
+// const playerBtn = [
+//   document.querySelector("#human"),
+//   document.querySelector("#com"),
+// ];
 // 흑 선수가 누군지
 // const firstBtn = document.querySelector(".firstplayer");
-const firstBtn = [
-  document.querySelector("#humanfirst"),
-  document.querySelector("#comfirst"),
-];
+// const firstBtn = [
+//   document.querySelector("#humanfirst"),
+//   document.querySelector("#comfirst"),
+// ];
 const playSound = new Audio("TAK.WAV");
 
 let boardsize;
