@@ -1,3 +1,5 @@
+https://tyrano1129.github.io/Omok/
+
 # 오목만들기 프로젝트
 
 ## 1. 동기
